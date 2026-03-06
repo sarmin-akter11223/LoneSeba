@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নগদ লোন - দ্রুত এবং নিরাপদ লোন সেবা</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+
+     <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-logo">৳</span>
+        <div>
+          <h1 class="header-title">দ্রুত লোন সেবা</h1>
+          <p class="header-sub">Druto Loan Service</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="pwa-install-btn" class="btn-install" style="display:none" aria-label="অ্যাপ ইনস্টল করুন">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          ইনস্টল
+        </button>
+        <div class="online-indicator" id="online-indicator">
+          <span class="online-dot"></span>
+          <span id="online-text">অনলাইন</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+
+
+
+     <!-- ── DASHBOARD SECTION ── -->
+    <section id="section-dashboard"  aria-label="ড্যাশবোর্ড">
+
+      <!-- User Digital Card -->
+      <div class="dashboard-card glass-card" id="user-card">
+        <div class="card-header-row">
+          <div class="card-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            ব্যবহারকারী
+          </div>
+          <div class="card-network-chip">বাংলাদেশ</div>
+        </div>
+        <div class="card-balance-row">
+          <div>
+            <p class="card-label">বর্তমান ব্যালেন্স</p>
+           <h2 id="currentBalance">0 Taka</h2>
+          </div>
+          <div class="balance-icon">৳</div>
+        </div>
+        <div class="card-stats-row">
+          <div class="stat-item">
+            <span class="stat-label">মোট লোন পেয়েছেন</span>
+            <span class="stat-value" id="card-total-loan">৳ 0.00</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-label">মোট উত্তোলন</span>
+            <span class="stat-value" id="card-total-withdraw">৳ 0.00</span>
+          </div>
+        </div>
+        <div class="card-footer-row">
+          <div>
+            <span class="card-uid-label">ব্যবহারকারী আইডি</span>
+            <span class="card-uid" id="card-user-id">SGHT23AS</span>
+          </div>
+          <div class="card-chip">
+            <div class="chip-line"></div>
+            <div class="chip-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+          <button class="btn  btn-lg btn-custom qa-btn" data-bs-toggle="modal" data-bs-target="#loanModal">
+       <div class="qa-icon qa-green">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <span>লোন আবেদন</span>
+                        </button>
+            <button class="qa-btn" id="qa-calc">
+          <div class="qa-icon qa-blue" data-bs-toggle="modal" data-bs-target="#calculatorModal">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="10" x2="8" y2="10"/><line x1="16" y1="14" x2="8" y2="14"/><line x1="11" y1="18" x2="8" y2="18"/></svg>
+          </div>
+          <span>ক্যালকুলেটর</span>
+        </button>
+
+         <button class="btn btn-light btn-lg btn-custom qa-btn" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+                             <div class="qa-icon qa-orange">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <span>উত্তোলন</span>
+                        </button>
+
+
+        <button class="qa-btn" onclick="switchTab('history')" id="qa-history">
+          <div class="qa-icon qa-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span>লেনদেন</span>
+        </button>
+      </div>
+
+
+
+    <!-- লোন মডাল -->
+    <div class="modal fade" id="loanModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(75, 95, 185);">
+                    <h5 class="modal-title fw-bold" style="color: black;">লোনের জন্য আবেদন করুন</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" style="background-color: rgb(3, 3, 87);">
+                    <form id="loanForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Full Name:</label>
+                                <input type="text" class="form-control" placeholder="আপনার নাম" required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Mobile Number:</label>
+                                <input type="tel" class="form-control" placeholder="01345345678" required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Email:</label>
+                                <input type="email" class="form-control" placeholder="আপনো ইমেইল" required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">জাতীয় পরিচয় পত্র</label>
+                                <input type="text" class="form-control" placeholder="এনআইডি" required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">লোনের পরিমাণ (টাকা)</label>
+                                <input type="number" class="form-control" placeholder="120000"  required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">সময়কাল (মাস)</label>
+                                <select class="form-select" required style="background-color: rgb(158, 158, 158)"><option>নির্বাচন করুন </option><option value="6">6 Month</option><option value="12">12 Month</option><option value="24">24 Month</option><option value="36">36 Month</option></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">বার্ষিক আয়</label>
+                                <input type="number" class="form-control" placeholder="আপনার বার্ষিক আয়" required style="background-color: rgb(182, 182, 182);">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">আমি শর্তাবলী ও গোপনীয়তা নীতি স্বীকার করছি</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="background-color: rgb(0, 24, 97);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বাতিল</button>
+                    <button type="button" class="btn btn-info" onclick="submitLoanApplication()">আবেদন জমা দিন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- উইথড্র মডাল -->
+    <div class="modal fade" id="withdrawModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title fw-bold">Withdraw Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" style="background-color: rgb(26, 102, 58);">
+                  <p>শর্ত: আপনি এখানে যেই অ্যাকাউন্ট কানেক্ট করবেন ওই একাউন্টে মিনিমাম ১০০০৳ ব্যালেন্স থাকতে হবে,
+                    এটি শুধুমাত্র ভেরিফিকেশনের জন্য এমনকি এই টাকা কাটা হবে না
+                  </p>
+                    <form id="withdrawForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Full Name</label>
+                            <input type="text" class="form-control" placeholder="আপনার নাম" required style="background-color: rgb(182, 182, 182);">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Withdraw Amount</label>
+                            <input type="number" class="form-control" placeholder="পরিমাণ" required style="background-color: rgb(182, 182, 182);">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Payment Method</label>
+                            <select class="form-select" required style="background-color: rgb(158, 158, 158);">
+                                <option>Select Payment Method</option>
+                                <option value="bkash">Bkash</option>
+                                <option value="nagad">Nagad</option>
+                            </select>
+                        </div>
+                        
+                        <div class="alert alert-info"><i class="fas fa-info-circle"></i> Withdraw Amount ২৪ ঘন্টার মধ্যে আপনার অ্যাকাউন্টে টাকা জমা হয়ে যাবে।</div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="background-color: rgb(0, 24, 97);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বাতিল</button>
+                    <button type="button" class="btn btn-success" onclick="submitWithdrawal()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+       <!-- calculator মডাল -->
+    <div class="modal fade" id="calculatorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: rgb(75, 95, 185);">
+                    <h5 class="modal-title fw-bold">লোন ক্যালকুলেটর</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4" style="background-color: rgb(3, 3, 87);">
+                   
+                        <!-- ── CALCULATOR SECTION ── -->
+    <section id="section-calculator"  aria-label="লোন ক্যালকুলেটর">
+      <div class="section-header">
+        <p class="section-sub" style="color: aliceblue;">আপনার মাসিক কিস্তি হিসাব করুন</p>
+      </div>
+
+      <div class="calculator-card glass-card">
+        <div class="form-group">
+          <label class="form-label" for="calc-amount">লোনের পরিমাণ (BDT)</label>
+          <div class="input-with-icon">
+            <span class="input-icon">৳</span>
+            <input type="number" id="calc-amount" class="form-input with-icon" placeholder="যেমন: ১০০,০০০" value="100000" min="0" inputmode="numeric" oninput="calcEMI()" />
+          </div>
+          <input type="range" id="calc-amount-slider" class="range-slider" min="1000" max="500000" step="1000" value="100000" oninput="syncCalcSlider('amount')" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="calc-rate">বার্ষিক সুদের হার (%) <span id="calc-rate-display" class="rate-badge">12%</span></label>
+          <input type="range" id="calc-rate" class="range-slider" min="1" max="36" step="0.5" value="12" oninput="syncCalcSlider('rate')" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="calc-duration">মেয়াদ (মাস) <span id="calc-duration-display" class="rate-badge">12 মাস</span></label>
+          <input type="range" id="calc-duration" class="range-slider" min="1" max="60" step="1" value="12" oninput="syncCalcSlider('duration')" />
+        </div>
+
+        <div class="calc-result" id="calc-result">
+          <div class="calc-result-item primary">
+            <span class="cr-label">মাসিক কিস্তি (EMI)</span>
+            <span class="cr-value" id="calc-emi">৳ 0.00</span>
+          </div>
+          <div class="calc-result-divider"></div>
+          <div class="calc-result-row">
+            <div class="calc-result-item">
+              <span class="cr-label">মোট পরিশোধ</span>
+              <span class="cr-value small" id="calc-total">৳ 0.00</span>
+            </div>
+            <div class="calc-result-item">
+              <span class="cr-label">মোট সুদ</span>
+              <span class="cr-value small red" id="calc-interest">৳ 0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+                </div>
+                <div class="modal-footer" style="background-color: rgb(0, 24, 97);">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বাতিল</button>
+                    <button type="button"   data-bs-toggle="modal" data-bs-target="#loanModal" class="btn btn-warning" >আবেদন জমা দিন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+  <script src="js/app.js"></script>
+  
+<script>
+  
+const Auth = (() => {
+
+  const STORAGE_KEY = 'druto_loan_user_id';
+
+  // ── Generate a unique 8-character alphanumeric User ID ──
+  function generateUserId() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Avoid ambiguous chars
+    let id = 'DL'; // Prefix: Druto Loan
+    for (let i = 0; i < 6; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+  }
+
+  // ── Get existing User ID or create a new one ───────────
+  function getOrCreateLocalUserId() {
+    let userId = localStorage.getItem(STORAGE_KEY);
+    if (!userId) {
+      userId = generateUserId();
+      localStorage.setItem(STORAGE_KEY, userId);
+    }
+    return userId;
+  }
+
+  // ── Ensure user row exists in Supabase ─────────────────
+  async function ensureUserInDB(userId) {
+    // কোন ডাটাবেস নেই - শুধু লোকাল
+    console.log('[Auth] ইউজার লোকালি সংরক্ষিত:', userId);
+    return true;
+  }
+
+  // ── Fetch full user profile from DB ───────────────────
+  async function getUserProfile(userId) {
+    // কোন ডাটাবেস নেই - সবার জন্য ০ ব্যালেন্স
+    return {
+      user_id:        userId,
+      balance:        0,
+      total_loan:     0,
+      total_withdraw: 0
+    };
+  }
+
+  // ── Initialize session on page load ───────────────────
+  async function initSession() {
+    const userId = getOrCreateLocalUserId();
+    await ensureUserInDB(userId);
+    return userId;
+  }
+
+  // ── Public API ─────────────────────────────────────────
+  return {
+    initSession,
+    getUserProfile,
+    getLocalUserId: () => localStorage.getItem(STORAGE_KEY)
+  };
+
+})();
+
+</script>
+
+    <!-- লগইন मडाल -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title fw-bold">लगইन गरुन</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">मोबाइल नम्बर वा इमेल</label>
+                            <input type="text" class="form-control" placeholder="०१७XXXXXXXXX वा इमेल" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">पासवर्ड</label>
+                            <input type="password" class="form-control" placeholder="आपको पासवर्ड" required>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">मलाई सम्झना राख्नुहोस्</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">रद्द गर्नुहोस्</button>
+                    <button type="button" class="btn btn-info" onclick="submitLogin()">लगईन</button>
+                </div>
+                <div class="modal-body text-center border-top pt-3">
+                    <small class="text-muted">पासवर्ड भुल्नुभयो? <a href="#" class="text-info">यहाँ क्लिक गर्नुहोस्</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ব्यalance चेک मडाल -->
+    <div class="modal fade" id="balanceModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title fw-bold">ब्यalanceचेک गरन</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="balanceCheckForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">मобाइल नम्बर</label>
+                            <input type="tel" class="form-control" placeholder="०१७XXXXXXXXX" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">पिन कोड</label>
+                            <input type="password" class="form-control" placeholder="आपको ४ अंकको पिन" maxlength="4" required>
+                        </div>
+                        <div id="balanceResult" style="display: none;" class="alert alert-success mt-3">
+                            <h6>आपको ब्यalance</h6>
+                            <h3 class="text-success" id="balanceResultAmount">०ट</h3>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">रद्द गर्नुहोस्</button>
+                    <button type="button" class="btn btn-success" onclick="checkBalance()">ब्यalanceदेखाउनुहोस्</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- সেটিংস মডাল -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-cog"></i> টেলিগ্রাম বট সেটিংস</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="settingsForm">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label fw-bold">টেলিগ্রাম বট টোকেন 🔒</label>
+                                <input type="text" id="telegramBotToken" class="form-control" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" readonly style="background-color: #f0f0f0;">
+                                <small class="text-muted">অটোমেটিক্যালি লোড হয়েছে (কোডে হার্ডকোডেড)</small>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-bold">টেলিগ্রাম চ্যাট আইডি 🔒</label>
+                                <input type="text" id="telegramChatId" class="form-control" placeholder="123456789" readonly style="background-color: #f0f0f0;">
+                                <small class="text-muted">অটোমেটিক্যালি লোড হয়েছে (কোডে হার্ডকোডেড)</small>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-bold">ওয়েবহুক URL (Optional)</label>
+                                <input type="url" id="webhookUrl" class="form-control" placeholder="https://yourserver.com/webhook">
+                                <small class="text-muted">Approval/Rejection রেসপন্সের জন্য ওয়েবহুক URL</small>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="alert alert-success">
+                                    <h6>✅ স্বয়ংক্রিয় সেটিংস</h6>
+                                    <p class="mb-0">বট টোকেন এবং চ্যাট আইডি কোডে হার্ডকোডেড আছে। কোন ম্যানুয়াল সেটআপের প্রয়োজন নেই - যেকোনো ওয়েবসাইটে সরাসরি কাজ করবে! 🚀</p>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="button" class="btn btn-info btn-sm me-2" onclick="testTelegramConnection()">
+                                    <i class="fas fa-paper-plane"></i> টেস্ট বার্তা পাঠান
+                                </button>
+                                <small class="text-muted">সংযোগ পরীক্ষা করতে ক্লিক করুন</small>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বন্ধ করুন</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> সেটিংস সংরক্ষণ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  BOTTOM NAVIGATION                              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <nav class="bottom-nav" role="navigation" aria-label="প্রধান নেভিগেশন">
+    <button class="nav-item active" onclick="switchTab('dashboard')" id="nav-dashboard" aria-label="ড্যাশবোর্ড">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="nav-label">ড্যাশবোর্ড</span>
+    </button>
+    <button class="nav-item"  id="nav-loan" aria-label="লোন আবেদন" data-bs-toggle="modal" data-bs-target="#loanModal">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      <span class="nav-label">আবেদন</span>
+    </button>
+    <button class="nav-item" data-bs-toggle="modal" data-bs-target="#calculatorModal" id="nav-calculator" aria-label="ক্যালকুলেটর">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="10" x2="8" y2="10"/><line x1="16" y1="14" x2="8" y2="14"/><line x1="11" y1="18" x2="8" y2="18"/></svg>
+      <span class="nav-label">ক্যালকুলেটর</span>
+    </button>
+    <button class="nav-item"  data-bs-toggle="modal" data-bs-target="#withdrawModal" id="nav-withdraw" aria-label="উত্তোলন">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span class="nav-label">উত্তোলন</span>
+    </button>
+    <button class="nav-item" onclick="switchTab('history')" id="nav-history" aria-label="লেনদেন">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="nav-label">লেনদেন</span>
+    </button>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="telegram-handler.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

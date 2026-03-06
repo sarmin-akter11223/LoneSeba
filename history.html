@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#16a34a" />
+  <meta name="description" content="দ্রুত লোন সেবা — বাংলাদেশের সেরা অনলাইন লোন ম্যানেজমেন্ট প্ল্যাটফর্ম।" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="দ্রুত লোন" />
+
+  <title>দ্রুত লোন সেবা | Druto Loan Service</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
+  <!-- Google Fonts: Bengali + Latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  TOAST NOTIFICATION                             -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  HEADER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="header-logo">৳</span>
+        <div>
+          <h1 class="header-title">দ্রুত লোন সেবা</h1>
+          <p class="header-sub">Druto Loan Service</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="pwa-install-btn" class="btn-install" style="display:none" aria-label="অ্যাপ ইনস্টল করুন">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          ইনস্টল
+        </button>
+        <div class="online-indicator" id="online-indicator">
+          <span class="online-dot"></span>
+          <span id="online-text">অনলাইন</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <main class="app-main" id="app-main">
+
+
+
+    <!-- ── TRANSACTION HISTORY SECTION ── -->
+    <section id="section-history" class="app-sectio" aria-label="লেনদেনের ইতিহাস">
+      <div class="section-header">
+        <h2 class="section-title">লেনদেনের ইতিহাস</h2>
+        <p class="section-sub">আপনার সকল লোন ও উত্তোলন রেকর্ড</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterHistory('all')" id="filter-all">সব</button>
+        <button class="filter-tab" onclick="filterHistory('loan')" id="filter-loan">লোন</button>
+        <button class="filter-tab" onclick="filterHistory('withdraw')" id="filter-withdraw">উত্তোলন</button>
+      </div>
+
+      <!-- Transaction List -->
+      <div id="history-list" class="history-list">
+        <div class="history-empty" id="history-empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p>কোনো লেনদেন পাওয়া যায়নি</p>
+        </div>
+      </div>
+
+      <!-- Refresh Button -->
+      <button class="btn-outline btn-full" onclick="loadHistory()" id="refresh-history-btn" style="margin-top:16px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        রিফ্রেশ করুন
+      </button>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  BOTTOM NAVIGATION                              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <nav class="bottom-nav" role="navigation" aria-label="প্রধান নেভিগেশন">
+    <button class="nav-item active" onclick="" id="nav-dashboard" aria-label="ড্যাশবোর্ড">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="nav-label">ড্যাশবোর্ড</span>
+    </button>
+    <button class="nav-item" data-bs-toggle="modal" data-bs-target="#loanModal" id="nav-loan" aria-label="লোন আবেদন">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      <span class="nav-label">আবেদন</span>
+    </button>
+    <button class="nav-item" onclick="" id="nav-calculator" aria-label="ক্যালকুলেটর">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="10" x2="8" y2="10"/><line x1="16" y1="14" x2="8" y2="14"/><line x1="11" y1="18" x2="8" y2="18"/></svg>
+      <span class="nav-label">ক্যালকুলেটর</span>
+    </button>
+    <button class="nav-item" onclick="" id="nav-withdraw" aria-label="উত্তোলন">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span class="nav-label">উত্তোলন</span>
+    </button>
+    <button class="nav-item" onclick="" id="nav-history" aria-label="লেনদেন">
+      <svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span class="nav-label">লেনদেন</span>
+    </button>
+  </nav>
+
+
+
+  <script src="js/app.js"></script>
+
+  <script>
+
+
+const Auth = (() => {
+
+  const STORAGE_KEY = 'druto_loan_user_id';
+
+  // ── Generate a unique 8-character alphanumeric User ID ──
+  function generateUserId() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Avoid ambiguous chars
+    let id = 'DL'; // Prefix: Druto Loan
+    for (let i = 0; i < 6; i++) {
+      id += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return id;
+  }
+
+  // ── Get existing User ID or create a new one ───────────
+  function getOrCreateLocalUserId() {
+    let userId = localStorage.getItem(STORAGE_KEY);
+    if (!userId) {
+      userId = generateUserId();
+      localStorage.setItem(STORAGE_KEY, userId);
+    }
+    return userId;
+  }
+
+  // ── Ensure user row exists in Supabase ─────────────────
+  async function ensureUserInDB(userId) {
+    // কোন ডাটাবেস নেই - শুধু লোকাল
+    console.log('[Auth] ইউজার লোকালি সংরক্ষিত:', userId);
+    return true;
+  }
+
+  // ── Fetch full user profile from DB ───────────────────
+  async function getUserProfile(userId) {
+    // কোন ডাটাবেস নেই - সবার জন্য ০ ব্যালেন্স
+    return {
+      user_id:        userId,
+      balance:        0,
+      total_loan:     0,
+      total_withdraw: 0
+    };
+  }
+
+  // ── Initialize session on page load ───────────────────
+  async function initSession() {
+    const userId = getOrCreateLocalUserId();
+    await ensureUserInDB(userId);
+    return userId;
+  }
+
+  // ── Public API ─────────────────────────────────────────
+  return {
+    initSession,
+    getUserProfile,
+    getLocalUserId: () => localStorage.getItem(STORAGE_KEY)
+  };
+
+})();
+
+  </script>
+
+</body>
+</html>
